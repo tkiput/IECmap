@@ -1,0 +1,1333 @@
+/* ==========================================================================
+   CSS Variables & Global Setup
+   ========================================================================== */
+:root {
+  --bg-primary: #F8F6F0;       /* 暖かみのあるクリームベージュ */
+  --bg-card: #FFFFFF;          /* 白背景 */
+  --primary: #3A5F53;          /* 深いセージグリーン（クリスマスグリーン） */
+  --primary-light: #E3ECE9;    /* 淡いセージグリーン */
+  --accent: #8C3A43;           /* 上品なボルドー（クリスマスレッド） */
+  --accent-light: #F7EBEB;     /* 淡いボルドー */
+  --text-main: #2D3130;        /* メインテキスト色 */
+  --text-sub: #6A706D;         /* サブテキスト色 */
+  --border: #E3DFD5;           /* 薄いベージュ枠線 */
+  --shadow: rgba(58, 79, 70, 0.06);
+  --shadow-strong: rgba(58, 79, 70, 0.12);
+  --font-family: 'Noto Sans JP', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent; /* タップハイライト除去 */
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #1E2522; /* PC表示時の背景色 */
+  color: var(--text-main);
+  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+   PC表示用のビューワーフレーム (シミュレータ)
+   ========================================================================== */
+#pc-viewer-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+#pc-viewer-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(58, 95, 83, 0.15) 0%, rgba(140, 58, 67, 0.08) 90%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+#pc-viewer-sidebar {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+  z-index: 2;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-star {
+  font-size: 28px;
+  color: #EED595;
+  animation: pulse 2s infinite alternate;
+}
+
+.sidebar-logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #D5DCD9;
+  margin: 40px 0;
+}
+
+.sidebar-qrcode {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.qrcode-placeholder {
+  width: 140px;
+  height: 140px;
+  background: #FFFFFF;
+  padding: 15px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.qrcode-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar-qrcode span {
+  font-size: 13px;
+  color: #A5B0AC;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  font-size: 12px;
+  color: #7A8782;
+}
+
+/* ==========================================================================
+   スマートフォンコンテナ
+   ========================================================================== */
+#app-container {
+  width: 450px;
+  height: 100%;
+  background-color: var(--bg-primary);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   ヘッダー
+   ========================================================================== */
+#app-header {
+  background-color: var(--bg-card);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 10px var(--shadow);
+  flex-shrink: 0;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-icon {
+  font-size: 18px;
+}
+
+.logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   メインスクロール領域 ＆ タブ制御
+   ========================================================================== */
+#tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 100px 16px; /* ボトムナビを避けるための下余白 */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-pane {
+  display: none;
+  opacity: 0;
+  width: 100%;
+}
+
+.tab-pane.active {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   共通コンポーネント (カード、ボタンなど)
+   ========================================================================== */
+.content-card {
+  background-color: var(--bg-card);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title .icon {
+  font-size: 18px;
+}
+
+.btn-primary, .btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+}
+
+.btn-primary:active {
+  background-color: #2F4D43;
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:active {
+  background-color: var(--bg-primary);
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   1. Home タブ スタイル
+   ========================================================================== */
+.hero-card {
+  height: 180px;
+  border-radius: 24px;
+  position: relative;
+  background-color: var(--primary);
+  background-image: linear-gradient(135deg, var(--primary) 0%, #2A473E 100%);
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(58, 95, 83, 0.15);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+/* クリスマスツリーのシルエットなどを背景に配置 */
+.hero-card::after {
+  content: "🎄";
+  position: absolute;
+  right: 15px;
+  bottom: 0px;
+  font-size: 120px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: var(--accent);
+  color: #FFFFFF;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.hero-tagline {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* カウントダウンタイマー */
+.countdown-card {
+  text-align: center;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%);
+}
+
+#countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.timer-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.timer-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  background-color: var(--accent-light);
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(140, 58, 67, 0.05);
+}
+
+.timer-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-sub);
+  margin-top: 6px;
+}
+
+#countdown-finished-msg {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+/* 概要リスト */
+.summary-list {
+  list-style: none;
+}
+
+.summary-list li {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.summary-list li:first-child {
+  padding-top: 0;
+}
+
+.summary-label {
+  width: 70px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.summary-value {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.concept-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+.quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   2. Map タブ スタイル
+   ========================================================================== */
+#tab-map {
+  padding: 0;
+  height: 100%;
+}
+
+.map-controls-floor {
+  display: flex;
+  background-color: var(--border);
+  padding: 4px;
+  border-radius: 14px;
+  gap: 4px;
+  margin: 16px 16px 8px 16px;
+  flex-shrink: 0;
+}
+
+.floor-selector-btn {
+  flex: 1;
+  height: 38px;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.floor-selector-btn.active {
+  background-color: var(--bg-card);
+  color: var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.map-viewport-container {
+  flex: 1;
+  position: relative;
+  background-color: #ECE9E0;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  min-height: 350px;
+}
+
+#map-pan-zoom-container {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+#map-pan-zoom-container:active {
+  cursor: grabbing;
+}
+
+.map-floor-group {
+  transition: opacity 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* SVG ピンのスタイル */
+.map-pin {
+  cursor: pointer;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.map-pin:hover {
+  transform: scale(1.15);
+}
+
+.map-pin.active {
+  transform: scale(1.2) translateY(-2px);
+}
+
+.map-pin.active .pin-marker {
+  fill: var(--accent);
+}
+
+.map-pin.active .pin-pulse {
+  animation: pinPulse 1.5s infinite;
+}
+
+@keyframes pinPulse {
+  0% {
+    r: 8;
+    opacity: 0.6;
+  }
+  100% {
+    r: 24;
+    opacity: 0;
+  }
+}
+
+/* フローティングマップコントロール */
+.map-floating-controls {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+.map-action-btn {
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-main);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.map-action-btn:active {
+  transform: scale(0.95);
+  background-color: #ECEAE3;
+}
+
+/* マップ凡例 */
+.map-legend {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-sub);
+}
+
+.legend-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.legend-box.entry-stage { background-image: linear-gradient(135deg, #EED595 0%, #D9B44A 100%); }
+.legend-box.entry-hq { background-color: #E3EDE9; border-color: #3A5F53; }
+.legend-box.entry-eating { background-color: #EAEAD5; border-color: #B0B080; }
+.legend-box.entry-restricted { background-color: #F8ECEE; border-color: #8C3A43; background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(140, 58, 67, 0.15) 3px, rgba(140, 58, 67, 0.15) 6px); }
+
+/* ピンタップ時の詳細プレビューカード */
+.map-preview-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateY(0);
+}
+
+.map-preview-card.hidden {
+  transform: translateY(100%);
+  display: block !important; /* スライドをスムーズに行うためにDOM上では常に配置 */
+}
+
+.preview-close-btn {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  font-size: 22px;
+  color: var(--text-sub);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+
+.preview-layout {
+  display: flex;
+  gap: 16px;
+}
+
+.preview-image {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+.preview-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preview-location {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background-color: var(--accent-light);
+  padding: 2px 8px;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.preview-circle-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.preview-title {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+.preview-action-btn {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  height: 34px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   3. Schedule タブ スタイル
+   ========================================================================== */
+/* デモ時間シミュレーター */
+.demo-time-simulator {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.simulator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #CCC;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.simulator-body {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#demo-time-slider {
+  width: 100%;
+  accent-color: var(--primary);
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.current-sim-time {
+  font-size: 12px;
+  color: var(--text-main);
+  text-align: right;
+}
+
+/* タイムラインUI */
+.timeline-container {
+  position: relative;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+/* タイムライン縦線 */
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background-color: var(--border);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* タイムラインの丸ポインタ */
+.timeline-dot {
+  position: absolute;
+  left: -20px;
+  top: 14px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  border: 3px solid var(--border);
+  z-index: 2;
+  transition: var(--transition);
+}
+
+.timeline-card {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.timeline-card:active {
+  transform: scale(0.98);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeline-time {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.timeline-badge-now {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  animation: pulseNow 1.5s infinite;
+  display: none; /* デフォルト非表示、NOW時にJSで表示 */
+}
+
+@keyframes pulseNow {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.timeline-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.timeline-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.timeline-location {
+  color: var(--accent);
+  font-weight: 600;
+  background-color: var(--accent-light);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.timeline-circle-link {
+  color: var(--primary);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* 現在進行中のタイムラインアイテムのハイライトスタイル */
+.timeline-item.now .timeline-dot {
+  background-color: var(--primary);
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 4px rgba(58, 95, 83, 0.2);
+}
+
+.timeline-item.now .timeline-card {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  box-shadow: 0 6px 16px rgba(58, 95, 83, 0.08);
+}
+
+.timeline-item.now .timeline-time {
+  color: var(--primary);
+}
+
+.timeline-item.now .timeline-badge-now {
+  display: inline-block;
+}
+
+/* ==========================================================================
+   4. Circles タブ スタイル
+   ========================================================================== */
+.circles-intro {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+}
+
+.circles-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 1行アコーディオンカード */
+.circle-accordion-item {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 10px var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+/* ヘッダー部分（常に表示されるタップ領域） */
+.circle-accordion-header {
+  width: 100%;
+  height: 54px;
+  background: transparent;
+  border: none;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.circle-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+
+.circle-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  background-color: var(--bg-primary);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.circle-list-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.circle-list-loc {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background-color: var(--accent-light);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.circle-arrow {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-sub);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* コンテンツ部分（アコーディオン展開される領域） */
+.circle-accordion-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.35s ease;
+  border-top: 0px solid transparent;
+}
+
+.circle-accordion-inner {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.circle-detail-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.circle-detail-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 4px;
+}
+
+.circle-detail-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.circle-detail-map-btn {
+  height: 40px;
+  font-size: 13px;
+}
+
+/* 展開状態のクラス */
+.circle-accordion-item.open {
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgba(58, 95, 83, 0.08);
+}
+
+.circle-accordion-item.open .circle-accordion-content {
+  max-height: 1000px; /* 十分な高さ */
+  opacity: 1;
+  border-top: 1px solid var(--border);
+}
+
+.circle-accordion-item.open .circle-arrow {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   5. Info タブ スタイル
+   ========================================================================== */
+.contact-card {
+  text-align: center;
+}
+
+.card-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+
+.email-link-btn {
+  text-decoration: none;
+}
+
+/* 一般案内用アコーディオン */
+.info-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.info-accordion-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.info-accordion-header {
+  width: 100%;
+  height: 48px;
+  background-color: var(--bg-primary);
+  border: none;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.info-accordion-header .header-icon {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.info-accordion-header .header-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: left;
+}
+
+.info-accordion-header .arrow-icon {
+  font-size: 14px;
+  color: var(--text-sub);
+  transition: transform 0.3s ease;
+}
+
+.info-accordion-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  background-color: #FFFFFF;
+}
+
+.info-accordion-content .inner-content {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.info-accordion-content ul, .info-accordion-content ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.info-accordion-content li {
+  margin-bottom: 6px;
+}
+
+.info-accordion-content .sub-text {
+  font-size: 11px;
+  color: #909794;
+  margin-top: 8px;
+}
+
+/* 開いた状態の回転 */
+.info-accordion-item.open .info-accordion-content {
+  max-height: 500px;
+  opacity: 1;
+  border-top: 1px solid var(--border);
+}
+
+.info-accordion-item.open .arrow-icon {
+  transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   ボトムナビゲーションバー（参考画像UI準拠）
+   ========================================================================== */
+#bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px calc(10px + var(--safe-area-bottom)) 16px;
+  z-index: 100;
+  flex-shrink: 0;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 24px;
+  padding: 0 12px;
+  gap: 6px;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.nav-label {
+  font-size: 12px;
+  font-weight: 700;
+  display: none; /* デフォルト非表示 */
+}
+
+/* アクティブボタンのスタイル（参考画像ベースの丸みのあるカプセル型） */
+.nav-btn.active {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  padding: 0 16px;
+  box-shadow: 0 4px 10px rgba(58, 95, 83, 0.2);
+}
+
+.nav-btn.active .icon-svg {
+  transform: scale(1.05);
+}
+
+.nav-btn.active .nav-label {
+  display: inline-block;
+  animation: slideInText 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInText {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   レスポンシブデザイン（モバイル・PCの切り替え）
+   ========================================================================== */
+/* スマートフォン単体の画面幅（768px未満）の時 */
+@media (max-width: 768px) {
+  body {
+    background-color: var(--bg-primary);
+  }
+
+  #pc-viewer-wrapper {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  #pc-viewer-background,
+  #pc-viewer-sidebar {
+    display: none; /* サイドバーと背景を非表示 */
+  }
+
+  #app-container {
+    width: 100vw;
+    height: 100vh;
+    box-shadow: none;
+    border-left: none;
+  }
+}
+
+/* ==========================================================================
+   アニメーション用 keyframes
+   ========================================================================== */
+@keyframes pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(238, 213, 149, 0.4)); }
+  100% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(238, 213, 149, 0.8)); }
+}
