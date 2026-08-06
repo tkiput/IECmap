@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>クリスマス会 × FESTA - 会場案内ガイド</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="クリスマス会 × FESTAの来場者向けリアルタイムスマートフォン特化型会場ガイド。マップ、タイムスケジュール、サークル企画などを片手で快適に確認できます。">
+  <meta name="author" content="IECサークル">
+  <meta property="og:title" content="クリスマス会 × FESTA - 会場案内ガイド">
+  <meta property="og:description" content="リアルタイム会場マップ、スケジュール、サークル一覧が確認できるスマートフォン最適化Webアプリ。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/icon-512.jpg">
+  
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="クリスマスFESTA">
+  <link rel="apple-touch-icon" href="images/icon-192.jpg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3A5F53">
+  
+  <!-- Google Fonts & Font Awesome (for icons, or we use inline SVG) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="index.css?v=2">
+  
+  <!-- App Data and Main Logic (deferred) -->
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <!-- PC表示用の外側ビューワー枠 -->
+  <div id="pc-viewer-wrapper">
+    <div id="pc-viewer-background"></div>
+    <div id="pc-viewer-sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-star">✦</span>
+        <h1>クリスマス会 × FESTA</h1>
+      </div>
+      <p class="sidebar-description">
+        来場者向けのスマートフォン最適化ガイドアプリです。<br>
+        右側のシミュレーター画面で操作をお試しいただけます。
+      </p>
+      <div class="sidebar-qrcode">
+        <div class="qrcode-placeholder">
+          <!-- QRコード風のプレースホルダー -->
+          <svg viewBox="0 0 100 100" width="100" height="100" class="qrcode-svg">
+            <rect x="0" y="0" width="30" height="30" fill="#3A5F53" />
+            <rect x="5" y="5" width="20" height="20" fill="#F8F6F0" />
+            <rect x="10" y="10" width="10" height="10" fill="#3A5F53" />
+            
+            <rect x="70" y="0" width="30" height="30" fill="#3A5F53" />
+            <rect x="75" y="5" width="20" height="20" fill="#F8F6F0" />
+            <rect x="80" y="10" width="10" height="10" fill="#3A5F53" />
+            
+            <rect x="0" y="70" width="30" height="30" fill="#3A5F53" />
+            <rect x="5" y="75" width="20" height="20" fill="#F8F6F0" />
+            <rect x="10" y="80" width="10" height="10" fill="#3A5F53" />
+            
+            <rect x="40" y="40" width="20" height="20" fill="#3A5F53" />
+            <rect x="45" y="45" width="10" height="10" fill="#F8F6F0" />
+            
+            <rect x="40" y="10" width="15" height="15" fill="#3A5F53" />
+            <rect x="70" y="40" width="15" height="15" fill="#3A5F53" />
+            <rect x="10" y="40" width="15" height="15" fill="#3A5F53" />
+            <rect x="40" y="70" width="15" height="15" fill="#3A5F53" />
+            <rect x="70" y="70" width="15" height="15" fill="#3A5F53" />
+          </svg>
+        </div>
+        <span>スマートフォンで読み込む</span>
+      </div>
+      <div class="sidebar-footer">
+        © 2026 IEC Circle. All rights reserved.
+      </div>
+    </div>
+    
+    <!-- スマートフォン実機を模したインナーフレーム -->
+    <main id="app-container">
+      
+      <!-- ヘッダーエリア -->
+      <header id="app-header">
+        <div class="header-logo">
+          <span class="logo-icon">🎄</span>
+          <span class="logo-text">クリスマス会 × FESTA</span>
+        </div>
+        <div id="header-title">Home</div>
+      </header>
+      
+      <!-- メインコンテンツ領域（タブごとに切り替え） -->
+      <div id="tab-content">
+        
+        <!-- ========================================== -->
+        <!-- 1. Home タブ (イベント概要) -->
+        <!-- ========================================== -->
+        <section id="tab-home" class="tab-pane active" aria-labelledby="nav-home">
+          <!-- メインビジュアルカード -->
+          <div class="hero-card">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <span class="hero-badge">2026.12.23 Wed</span>
+              <h2 class="hero-title">クリスマス会 × FESTA</h2>
+              <p class="hero-tagline">光と音楽、笑顔でつながる特別な一日</p>
+            </div>
+          </div>
+          
+          <!-- カウントダウンタイマーカード -->
+          <div class="content-card countdown-card">
+            <h3 class="card-title"><span class="icon">⏰</span>開催までの残り時間</h3>
+            <div id="countdown-timer">
+              <div class="timer-segment">
+                <span class="timer-num" id="timer-days">00</span>
+                <span class="timer-label">日</span>
+              </div>
+              <div class="timer-segment">
+                <span class="timer-num" id="timer-hours">00</span>
+                <span class="timer-label">時間</span>
+              </div>
+              <div class="timer-segment">
+                <span class="timer-num" id="timer-minutes">00</span>
+                <span class="timer-label">分</span>
+              </div>
+              <div class="timer-segment">
+                <span class="timer-num" id="timer-seconds">00</span>
+                <span class="timer-label">秒</span>
+              </div>
+            </div>
+            <p id="countdown-finished-msg" class="hidden">🎉 ついに開催しました！会場をお楽しみください！</p>
+          </div>
+          
+          <!-- 開催概要カード -->
+          <div class="content-card info-summary-card">
+            <h3 class="card-title"><span class="icon">📍</span>開催概要</h3>
+            <ul class="summary-list">
+              <li>
+                <div class="summary-label">日時</div>
+                <div class="summary-value" id="summary-date">2026年12月23日(水) 11:00 - 18:00</div>
+              </li>
+              <li>
+                <div class="summary-label">場所</div>
+                <div class="summary-value">教室（36階/34階）& Aホール</div>
+              </li>
+              <li>
+                <div class="summary-label">主催</div>
+                <div class="summary-value">IECサークル実行委員会</div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- コンセプト・あいさつカード -->
+          <div class="content-card concept-card">
+            <h3 class="card-title"><span class="icon">✦</span>コンセプト</h3>
+            <p class="concept-text">
+              今年のテーマは「つなぐ・楽しむ・クリスマスの思い出」。<br>
+              ホールでの華やかなステージパフォーマンス、教室での個性豊かなサークル出展やワークショップなど、多彩な企画をご用意しています。片手にこのガイドを持って、会場を余すことなくお楽しみください！
+            </p>
+          </div>
+          
+          <!-- クイックショートカットボタン -->
+          <div class="quick-links">
+            <button class="btn-primary" onclick="switchTab('map')">
+              <span>🗺️</span> 会場マップを見る
+            </button>
+            <button class="btn-secondary" onclick="switchTab('schedule')">
+              <span>📅</span> スケジュールを確認
+            </button>
+          </div>
+        </section>
+        
+        <!-- ========================================== -->
+        <!-- 2. Map タブ (インタラクティブマップ) -->
+        <!-- ========================================== -->
+        <section id="tab-map" class="tab-pane" aria-labelledby="nav-map">
+          
+          <!-- フロアセレクター -->
+          <div class="map-controls-floor">
+            <button id="btn-floor-hall" class="floor-selector-btn active" onclick="changeMapFloor('hall')">ホール (B)</button>
+            <button id="btn-floor-1f" class="floor-selector-btn" onclick="changeMapFloor('1f')">校舎 1F</button>
+            <button id="btn-floor-2f" class="floor-selector-btn" onclick="changeMapFloor('2f')">校舎 2F</button>
+          </div>
+          
+          <!-- マップ表示領域 -->
+          <div id="map-viewport" class="map-viewport-container">
+            <div id="map-pan-zoom-container">
+              <!-- SVGマップがJSによってここにロード/描画される -->
+              <svg id="svg-map" viewBox="0 0 800 600" width="100%" height="100%">
+                <!-- 定義 (グラデーションやパターン) -->
+                <defs>
+                  <pattern id="hatch-pattern" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="0" y2="10" stroke="#8C3A43" stroke-width="3" opacity="0.3" />
+                  </pattern>
+                  <radialGradient id="stage-grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#EED595" />
+                    <stop offset="100%" stop-color="#D9B44A" />
+                  </radialGradient>
+                </defs>
+                
+                <!-- マップ背景 -->
+                <rect width="800" height="600" fill="#ECE9E0" rx="8" />
+                
+                <!-- 各フロアのレイアウトグループ (JSで表示/非表示を切り替え) -->
+                <g id="map-floor-hall" class="map-floor-group">
+                  <!-- ホールBの外壁 -->
+                  <rect x="50" y="50" width="700" height="500" fill="#FFFFFF" stroke="#D5D2C9" stroke-width="4" rx="20" />
+                  <!-- 通路/ホールエリア -->
+                  <rect x="80" y="80" width="640" height="440" fill="#FBF9F6" rx="10" />
+                  
+                  <!-- 特設ステージ (B) -->
+                  <rect x="120" y="100" width="560" height="120" fill="url(#stage-grad)" rx="10" />
+                  <text x="400" y="170" font-family="Noto Sans JP" font-weight="700" font-size="28" fill="#3A5F53" text-anchor="middle">メインステージ</text>
+                  
+                  <!-- サブエリア -->
+                  <rect x="120" y="380" width="220" height="110" fill="#EAE7DE" stroke="#D5D2C9" stroke-dasharray="4" rx="10" />
+                  <text x="230" y="445" font-family="Noto Sans JP" font-weight="700" font-size="20" fill="#5B5850" text-anchor="middle">サブエリア (朗読劇)</text>
+                  
+                  <!-- 本部 (HQ) -->
+                  <rect x="480" y="380" width="200" height="110" fill="#E3EDE9" stroke="#3A5F53" stroke-width="2" rx="10" />
+                  <text x="580" y="445" font-family="Noto Sans JP" font-weight="700" font-size="20" fill="#3A5F53" text-anchor="middle">本部 (HQ)</text>
+                  
+                  <!-- 飲食可能エリア (ホール指定席) -->
+                  <rect x="360" y="270" width="360" height="80" fill="#EAEAD5" rx="10" />
+                  <text x="540" y="315" font-family="Noto Sans JP" font-weight="700" font-size="16" fill="#606030" text-anchor="middle">飲食可能エリア (指定席)</text>
+                  
+                  <!-- 立入禁止エリア -->
+                  <rect x="80" y="270" width="260" height="80" fill="url(#hatch-pattern)" stroke="#8C3A43" stroke-width="1" rx="10" />
+                  <text x="210" y="315" font-family="Noto Sans JP" font-weight="700" font-size="16" fill="#8C3A43" text-anchor="middle">関係者以外 立入禁止</text>
+                  
+                  <!-- ピン配置用 -->
+                  <g id="pins-hall"></g>
+                </g>
+                
+                <g id="map-floor-1f" class="map-floor-group hidden">
+                  <!-- 校舎 1Fの外壁 -->
+                  <rect x="50" y="50" width="700" height="500" fill="#FFFFFF" stroke="#D5D2C9" stroke-width="4" rx="20" />
+                  <!-- 廊下 -->
+                  <rect x="80" y="260" width="640" height="80" fill="#F0ECE1" />
+                  <text x="400" y="308" font-family="Noto Sans JP" font-weight="700" font-size="20" fill="#8A8578" text-anchor="middle">中央廊下</text>
+                  
+                  <!-- 教室 101 -->
+                  <rect x="80" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="145" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">101</text>
+                  
+                  <!-- 教室 102 -->
+                  <rect x="230" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="295" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">102</text>
+                  
+                  <!-- 教室 103 -->
+                  <rect x="440" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="505" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">103</text>
+                  
+                  <!-- 教室 104 -->
+                  <rect x="590" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="655" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">104</text>
+                  
+                  <!-- 昇降口 / 中庭出口 -->
+                  <rect x="300" y="370" width="200" height="150" fill="#EAEAD5" stroke="#B0B080" stroke-width="2" rx="8" />
+                  <text x="400" y="445" font-family="Noto Sans JP" font-weight="700" font-size="18" fill="#606030" text-anchor="middle">昇降口・休憩所</text>
+                  <text x="400" y="475" font-family="Noto Sans JP" font-size="14" fill="#606030" text-anchor="middle">(飲食可能エリア)</text>
+                  
+                  <!-- 倉庫 / 立入禁止 -->
+                  <rect x="80" y="370" width="180" height="150" fill="url(#hatch-pattern)" stroke="#8C3A43" stroke-width="1" rx="8" />
+                  <text x="170" y="455" font-family="Noto Sans JP" font-weight="700" font-size="16" fill="#8C3A43" text-anchor="middle">管理室 (立入禁止)</text>
+                  
+                  <!-- 階段1 -->
+                  <rect x="630" y="370" width="90" height="150" fill="#EAE7DE" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <path d="M 640,490 L 710,490 M 640,470 L 710,470 M 640,450 L 710,450 M 640,430 L 710,430 M 640,410 L 710,410 M 640,390 L 710,390" stroke="#D5D2C9" stroke-width="2" />
+                  <text x="675" y="445" font-family="Noto Sans JP" font-size="14" fill="#8A8578" text-anchor="middle">階段</text>
+                  
+                  <!-- ピン配置用 -->
+                  <g id="pins-1f"></g>
+                </g>
+                
+                <g id="map-floor-2f" class="map-floor-group hidden">
+                  <!-- 校舎 2Fの外壁 -->
+                  <rect x="50" y="50" width="700" height="500" fill="#FFFFFF" stroke="#D5D2C9" stroke-width="4" rx="20" />
+                  <!-- 廊下 -->
+                  <rect x="80" y="260" width="640" height="80" fill="#F0ECE1" />
+                  <text x="400" y="308" font-family="Noto Sans JP" font-weight="700" font-size="20" fill="#8A8578" text-anchor="middle">中央廊下 2F</text>
+                  
+                  <!-- 教室 201 -->
+                  <rect x="80" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="145" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">201</text>
+                  
+                  <!-- 教室 202 -->
+                  <rect x="230" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="295" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">202</text>
+                  
+                  <!-- 教室 203 -->
+                  <rect x="440" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="505" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">203</text>
+                  
+                  <!-- 教室 204 -->
+                  <rect x="590" y="80" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="655" y="165" font-family="Outfit" font-weight="600" font-size="22" fill="#5B5850" text-anchor="middle">204</text>
+                  
+                  <!-- 教室 205 (空き・準備室) -->
+                  <rect x="80" y="370" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="145" y="455" font-family="Outfit" font-weight="600" font-size="20" fill="#B0AEAB" text-anchor="middle">205</text>
+                  
+                  <!-- 教室 206 (空き) -->
+                  <rect x="230" y="370" width="130" height="150" fill="#FCFAF6" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <text x="295" y="455" font-family="Outfit" font-weight="600" font-size="20" fill="#B0AEAB" text-anchor="middle">206</text>
+                  
+                  <!-- PC室・立入禁止 -->
+                  <rect x="380" y="370" width="220" height="150" fill="url(#hatch-pattern)" stroke="#8C3A43" stroke-width="1" rx="8" />
+                  <text x="490" y="455" font-family="Noto Sans JP" font-weight="700" font-size="16" fill="#8C3A43" text-anchor="middle">サーバー室 (立入禁止)</text>
+                  
+                  <!-- 階段1 -->
+                  <rect x="630" y="370" width="90" height="150" fill="#EAE7DE" stroke="#D5D2C9" stroke-width="2" rx="8" />
+                  <path d="M 640,490 L 710,490 M 640,470 L 710,470 M 640,450 L 710,450 M 640,430 L 710,430 M 640,410 L 710,410 M 640,390 L 710,390" stroke="#D5D2C9" stroke-width="2" />
+                  <text x="675" y="445" font-family="Noto Sans JP" font-size="14" fill="#8A8578" text-anchor="middle">階段</text>
+                  
+                  <!-- ピン配置用 -->
+                  <g id="pins-2f"></g>
+                </g>
+              </svg>
+            </div>
+            
+            <!-- マップ操作用UI（フローティング） -->
+            <div class="map-floating-controls">
+              <button id="btn-zoom-in" class="map-action-btn" aria-label="拡大">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/></svg>
+              </button>
+              <button id="btn-zoom-out" class="map-action-btn" aria-label="縮小">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M19 13H5v-2h14v2z" fill="currentColor"/></svg>
+              </button>
+              <button id="btn-map-reset" class="map-action-btn" aria-label="リセット">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" fill="currentColor"/></svg>
+              </button>
+            </div>
+            
+            <!-- マップの凡例表示 -->
+            <div class="map-legend">
+              <div class="legend-item"><span class="legend-box entry-stage"></span>ステージ</div>
+              <div class="legend-item"><span class="legend-box entry-hq"></span>本部</div>
+              <div class="legend-item"><span class="legend-box entry-eating"></span>飲食可能</div>
+              <div class="legend-item"><span class="legend-box entry-restricted"></span>立入禁止</div>
+            </div>
+          </div>
+          
+          <!-- サークルプレビューカード (ピンタップ時にスライドイン) -->
+          <div id="map-preview-card" class="map-preview-card hidden">
+            <button class="preview-close-btn" onclick="hideMapPreview()" aria-label="閉じる">×</button>
+            <div class="preview-layout">
+              <img id="preview-img" src="" alt="" class="preview-image">
+              <div class="preview-info">
+                <div class="preview-location" id="preview-loc"></div>
+                <h4 class="preview-circle-name" id="preview-name"></h4>
+                <p class="preview-title" id="preview-title"></p>
+                <button class="preview-action-btn" id="preview-details-btn">詳細・企画内容を見る</button>
+              </div>
+            </div>
+          </div>
+          
+        </section>
+        
+        <!-- ========================================== -->
+        <!-- 3. Schedule タブ (タイムスケジュール) -->
+        <!-- ========================================== -->
+        <section id="tab-schedule" class="tab-pane" aria-labelledby="nav-schedule">
+          
+          <!-- デモ時間シミュレーター（デバッグ・確認用） -->
+          <div class="demo-time-simulator">
+            <div class="simulator-header">
+              <span>⏱️ 時間シミュレーター (動作確認用)</span>
+              <label class="switch">
+                <input type="checkbox" id="demo-time-toggle">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="simulator-body hidden" id="simulator-controls">
+              <div class="time-slider-container">
+                <input type="range" id="demo-time-slider" min="570" max="990" step="10" value="600">
+                <div class="slider-labels">
+                  <span>9:30</span>
+                  <span>12:00</span>
+                  <span>14:30</span>
+                  <span>16:30</span>
+                </div>
+              </div>
+              <div class="current-sim-time">現在の設定時刻: <strong id="demo-time-display">10:00</strong></div>
+            </div>
+          </div>
+          
+          <!-- タイムラインリスト -->
+          <div class="timeline-container" id="timeline-list">
+            <!-- JSで動的に組み立て -->
+          </div>
+        </section>
+        
+        <!-- ========================================== -->
+        <!-- 4. Circles タブ (サークル企画一覧) -->
+        <!-- ========================================== -->
+        <section id="tab-circles" class="tab-pane" aria-labelledby="nav-circles">
+          <div class="circles-intro">
+            全サークルの企画情報を確認できます。タップすると詳細が開きます。
+          </div>
+          <!-- 1行アコーディオン形式のサークルリスト -->
+          <div class="circles-accordion-list" id="circles-list">
+            <!-- JSで動的に構築される -->
+          </div>
+        </section>
+        
+        <!-- ========================================== -->
+        <!-- 5. Info タブ (お問い合わせ・レギュレーション) -->
+        <!-- ========================================== -->
+        <section id="tab-info" class="tab-pane" aria-labelledby="nav-info">
+          
+          <!-- 本部連絡先 -->
+          <div class="content-card contact-card">
+            <h3 class="card-title"><span class="icon">✉️</span>本部へのお問い合わせ</h3>
+            <p class="card-text">落とし物、トラブル、急病など、お困りの際は本部スタッフまでお声がけいただくか、以下の連絡先までご連絡ください。</p>
+            <a href="mailto:honbu@example.com" id="contact-email-btn" class="btn-primary email-link-btn">
+              <span>📧</span> メールで本部に連絡する
+            </a>
+          </div>
+          
+          <!-- レギュレーション・案内アコーディオン -->
+          <div class="content-card rules-card">
+            <h3 class="card-title"><span class="icon">⚠️</span>会場内レギュレーション</h3>
+            
+            <div class="info-accordion">
+              <!-- ルール 1: 飲食について -->
+              <div class="info-accordion-item">
+                <button class="info-accordion-header" onclick="toggleInfoAccordion(this)">
+                  <span class="header-icon">🍔</span>
+                  <span class="header-text">飲食可能エリアについて</span>
+                  <span class="arrow-icon">∨</span>
+                </button>
+                <div class="info-accordion-content">
+                  <div class="inner-content">
+                    <p>校舎内の教室や廊下での飲食は全面禁止となっております。飲食の際は以下の指定スペースをご利用ください。</p>
+                    <ul>
+                      <li><strong>校舎 1F 昇降口前・休憩室</strong> (屋内)</li>
+                      <li><strong>ホール (B) の指定観覧席</strong> (ステージ演目中も可)</li>
+                      <li><strong>中庭ウッドデッキ・屋外フリースペース</strong> (屋外)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- ルール 2: ゴミの分別 -->
+              <div class="info-accordion-item">
+                <button class="info-accordion-header" onclick="toggleInfoAccordion(this)">
+                  <span class="header-icon">♻️</span>
+                  <span class="header-text">ゴミの分別・廃棄ルール</span>
+                  <span class="arrow-icon">∨</span>
+                </button>
+                <div class="info-accordion-content">
+                  <div class="inner-content">
+                    <p>環境保全と円滑なイベント運営のため、ゴミの分別廃棄にご協力ください。ゴミ箱は会場内に3箇所ございます。</p>
+                    <p><strong>分別区分:</strong></p>
+                    <ul>
+                      <li>可燃ゴミ (食べ残し、紙コップ、割り箸など)</li>
+                      <li>プラスチック類 (弁当ガラ、ビニール袋など)</li>
+                      <li>缶・ペットボトル (中身を空にして捨ててください)</li>
+                    </ul>
+                    <p class="sub-text">※一部サークルで配布・販売された容器は、購入したサークルへ返却できる場合もあります。</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- ルール 3: 避難経路 -->
+              <div class="info-accordion-item">
+                <button class="info-accordion-header" onclick="toggleInfoAccordion(this)">
+                  <span class="header-icon">🚨</span>
+                  <span class="header-text">緊急時の避難経路と対策</span>
+                  <span class="arrow-icon">∨</span>
+                </button>
+                <div class="info-accordion-content">
+                  <div class="inner-content">
+                    <p>地震や火災など、非常事態が発生した場合は慌てずに以下の対応をとってください。</p>
+                    <ol>
+                      <li>館内アナウンスまたはスタッフの拡声器による誘導指示を静かに聞いてください。</li>
+                      <li>揺れが収まるまで頭部を保護し、姿勢を低くして待機してください。</li>
+                      <li>避難指示が出た場合は、走らず、押さず、速やかに<strong>第一避難場所である「グラウンド」</strong>へ移動してください。</li>
+                    </ol>
+                    <p class="sub-text">※校舎1F昇降口、およびホール(B)の非常扉が主な避難口となります。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </section>
+        
+      </div>
+      
+      <!-- ボトムナビゲーションバー (参考画像のUIデザイン) -->
+      <nav id="bottom-nav">
+        <div class="nav-container">
+          <button class="nav-btn active" id="nav-home" onclick="switchTab('home')" aria-label="ホーム">
+            <span class="nav-icon">
+              <!-- Home Icon (SVG) -->
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </span>
+            <span class="nav-label">ホーム</span>
+          </button>
+          
+          <button class="nav-btn" id="nav-map" onclick="switchTab('map')" aria-label="マップ">
+            <span class="nav-icon">
+              <!-- Map Icon (SVG) -->
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48v15.12c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            </span>
+            <span class="nav-label">マップ</span>
+          </button>
+          
+          <button class="nav-btn" id="nav-schedule" onclick="switchTab('schedule')" aria-label="スケジュール">
+            <span class="nav-icon">
+              <!-- Schedule Icon (SVG) -->
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            </span>
+            <span class="nav-label">タイムライン</span>
+          </button>
+          
+          <button class="nav-btn" id="nav-circles" onclick="switchTab('circles')" aria-label="サークル">
+            <span class="nav-icon">
+              <!-- Circles Icon (SVG) -->
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </span>
+            <span class="nav-label">サークル</span>
+          </button>
+          
+          <button class="nav-btn" id="nav-info" onclick="switchTab('info')" aria-label="案内">
+            <span class="nav-icon">
+              <!-- Info Icon (SVG) -->
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </span>
+            <span class="nav-label">ご案内</span>
+          </button>
+        </div>
+      </nav>
+      
+    </main>
+  </div>
+
+</body>
+</html>
